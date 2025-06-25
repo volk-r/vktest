@@ -143,6 +143,12 @@ private extension ReviewCell {
         contentView.addSubview(showMoreButton)
         showMoreButton.contentVerticalAlignment = .fill
         showMoreButton.setAttributedTitle(Config.showMoreText, for: .normal)
+        showMoreButton.addTarget(self, action: #selector(didTapShowMore), for: .touchUpInside)
+    }
+    
+    @objc private func didTapShowMore() {
+        guard let id = config?.id else { return }
+        config?.onTapShowMore(id)
     }
 
 }
