@@ -39,7 +39,9 @@ extension ReviewsViewModel {
             state.isLoading = true
             onStateChange?(state)
         }
-        reviewsProvider.getReviews(offset: state.offset, completion: gotReviews)
+        reviewsProvider.getReviews(offset: state.offset) { [weak self] result in
+            self?.gotReviews(result)
+        }
     }
 
     /// Метод рефреша
@@ -103,7 +105,9 @@ private extension ReviewsViewModel {
             rating: rating,
             reviewText: reviewText,
             created: created,
-            onTapShowMore: showMoreReview
+            onTapShowMore: { [weak self] id in
+                self?.showMoreReview(with: id)
+            }
         )
         return item
     }
