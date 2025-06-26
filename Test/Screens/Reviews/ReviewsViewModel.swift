@@ -67,6 +67,9 @@ private extension ReviewsViewModel {
             state.items += reviews.items.map(makeReviewItem)
             state.offset += state.limit
             state.shouldLoad = state.offset < reviews.count
+            if !state.shouldLoad {
+                state.items.append(ReviewsCountItem(reviewsCount: reviews.count))
+            }
         } catch {
             state.shouldLoad = true
         }
@@ -94,6 +97,7 @@ private extension ReviewsViewModel {
 private extension ReviewsViewModel {
 
     typealias ReviewItem = ReviewCellConfig
+    typealias ReviewsCountItem = ReviewsCountCellConfig
 
     func makeReviewItem(_ review: Review) -> ReviewItem {
         let reviewText = review.text.attributed(font: .text)
@@ -109,6 +113,12 @@ private extension ReviewsViewModel {
                 self?.showMoreReview(with: id)
             }
         )
+        return item
+    }
+    
+    func makReviewsCountItem(_ reviewsCount: Reviews) -> ReviewsCountItem {
+        let item = ReviewsCountItem(reviewsCount: reviewsCount.count)
+        
         return item
     }
 
